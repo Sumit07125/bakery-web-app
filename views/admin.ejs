@@ -1,0 +1,31 @@
+<%- include('include/admin_header') %>
+
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <h1 class="text-center mb-4">Admin Panel</h1>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">View Bills</h5>
+              <p class="card-text">View all customer bills and orders.</p>
+              <a href="/admin_bills" class="btn btn-primary">See Bills</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="card h-100">
+            <div class="card-body text-center">
+              <h5 class="card-title">Add Products</h5>
+              <p class="card-text">Add new products to the inventory.</p>
+              <a href="/additems" class="btn btn-primary">Add Products</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('include/admin_footer') %>

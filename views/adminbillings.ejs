@@ -1,0 +1,41 @@
+<%- include('include/admin_header') %>
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">All Bills (Admin)</h2>
+
+  <% bills.forEach(bill => { %>
+    <div class="card mb-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3>Bill #<%= bill.bill_id %> - <%= bill.username %></h3>
+        <span><%= bill.bill_date.toDateString() %></span>
+      </div>
+      <div class="card-body">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (bill.item1) { %><tr><td><%= bill.item1 %></td><td><%= bill.q1 %></td></tr><% } %>
+            <% if (bill.item2) { %><tr><td><%= bill.item2 %></td><td><%= bill.q2 %></td></tr><% } %>
+            <% if (bill.item3) { %><tr><td><%= bill.item3 %></td><td><%= bill.q3 %></td></tr><% } %>
+          </tbody>
+        </table>
+        <div class="text-end fw-bold fs-5">Total: ₹<%= bill.total_amount %></div>
+        <p><strong>Status:</strong> <%= bill.status %></p>
+        <form class="d-flex justify-content-end align-items-center gap-2 mt-3" action="/update-bill/<%= bill.bill_id %>" method="POST">
+          <select name="status" class="form-select">
+            <option value="Pending" <%= bill.status === "Pending" ? "selected" : "" %>>Pending</option>
+            <option value="Inprogress" <%= bill.status === "Inprogress" ? "selected" : "" %>>Inprogress</option>
+            <option value="Delivered" <%= bill.status === "Delivered" ? "selected" : "" %>>Delivered</option>
+          </select>
+          <button type="submit" class="btn btn-success">Update</button>
+        </form>
+      </div>
+    </div>
+  <% }) %>
+</div>
+
+<%- include('include/admin_footer') %>

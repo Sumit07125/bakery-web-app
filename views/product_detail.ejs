@@ -1,0 +1,70 @@
+<%- include('include/header') %>
+
+<style>
+  .product-detail-container {
+    background-color: #fdfaf6;
+    padding: 3rem;
+    border-radius: 15px;
+  }
+  .product-detail-img {
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+  .product-detail-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+  }
+  .product-detail-price {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #d2691e;
+  }
+  .product-detail-description {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1rem;
+    color: #6c757d;
+  }
+  .product-detail-availability {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    color: #6c757d;
+  }
+  .btn-add-to-cart {
+    background-color: #d2691e;
+    border-color: #d2691e;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    transition: all 0.3s ease;
+  }
+  .btn-add-to-cart:hover {
+    background-color: #f4a261;
+    border-color: #f4a261;
+    transform: scale(1.05);
+  }
+</style>
+
+<div class="container my-5">
+  <div class="product-detail-container">
+    <div class="row">
+      <div class="col-md-6">
+        <img src="<%= product.img_url %>" class="img-fluid product-detail-img" alt="<%= product.name %>">
+      </div>
+      <div class="col-md-6 d-flex flex-column justify-content-center">
+        <h2 class="product-detail-title"><%= product.name %></h2>
+        <p class="product-detail-description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <p class="product-detail-price my-4">Rs <%= product.price %></p>
+        <p class="product-detail-availability"><strong>Availability:</strong> <%= product.quantity %> pieces available</p>
+        <div class="mt-4">
+          <a href="/addtocart/<%= product.product_id %>" class="btn btn-add-to-cart">Add to Cart</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('include/footer') %>

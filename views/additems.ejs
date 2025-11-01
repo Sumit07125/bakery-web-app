@@ -1,0 +1,40 @@
+<%- include('include/admin_header') %>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h1 class="card-title text-center">ADD PRODUCTS</h1>
+          <form action="/additems" method="POST">
+            <div class="mb-3">
+              <label for="name" class="form-label">Product Name:</label>
+              <input type="text" id="name" name="name" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="price" class="form-label">Price:</label>
+              <input type="number" id="price" name="price" class="form-control" min="1" required>
+            </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">Quantity:</label>
+              <input type="number" id="quantity" name="quantity" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="img_url" class="form-label">Image URL:</label>
+              <input type="text" id="img_url" name="img_url" class="form-control" required>
+            </div>
+            <button id="registered" type="submit" class="btn btn-primary w-100">Save</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('registered').addEventListener('click', () => {
+    alert('Item added successfully');
+  });
+</script>
+
+<%- include('include/admin_footer') %>

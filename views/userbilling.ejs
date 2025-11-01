@@ -1,0 +1,62 @@
+<%- include('include/header') %>
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">My Bills</h2>
+  <% if (bills.length > 0) { %>
+    <% bills.forEach(bill => { %>
+      <div class="card mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Bill #<%= bill.bill_id %></h5>
+          <span><%= new Date(bill.bill_date).toLocaleDateString() %></span>
+        </div>
+        <div class="card-body">
+          <table class="table table-sm table-striped">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% if (bill.item1) { %>
+                <tr>
+                  <td><%= bill.item1 %></td>
+                  <td><%= bill.q1 %></td>
+                </tr>
+              <% } %>
+              <% if (bill.item2) { %>
+                <tr>
+                  <td><%= bill.item2 %></td>
+                  <td><%= bill.q2 %></td>
+                </tr>
+              <% } %>
+              <% if (bill.item3) { %>
+                <tr>
+                  <td><%= bill.item3 %></td>
+                  <td><%= bill.q3 %></td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+          <div class="d-flex justify-content-between align-items-center mt-3">
+            <div>
+              <strong>Status:</strong> <span class="badge bg-info text-dark"><%= bill.status %></span>
+            </div>
+            <div class="text-end">
+              <h5 class="mb-0">Total: Rs <%= bill.total_amount %></h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  <% } else { %>
+    <div class="text-center">
+      <p>You have no bills.</p>
+    </div>
+  <% } %>
+  <div class="text-center mt-4">
+    <a href="/" class="btn btn-secondary">Back to Home</a>
+  </div>
+</div>
+
+<%- include('include/footer') %>

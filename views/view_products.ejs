@@ -1,0 +1,29 @@
+<%- include('include/admin_header') %>
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">All Products</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Product ID</th>
+        <th>Product Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% products.forEach(product => { %>
+        <tr>
+          <td><%= product.product_id %></td>
+          <td><%= product.product_name %></td>
+          <td>Rs <%= product.price %></td>
+          <td><%= product.quantity %></td>
+          <td><img src="<%= product.img_url %>" alt="<%= product.product_name %>" width="100"></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('include/admin_footer') %>
