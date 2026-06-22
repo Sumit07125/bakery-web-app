@@ -40,25 +40,26 @@ CREATE TABLE products (
   product_name VARCHAR(100) NOT NULL,
   price DECIMAL(10,2) NOT NULL,
   quantity INT NOT NULL,
-  img_url VARCHAR(2555) NOT NULL
+  img_url VARCHAR(2555) NOT NULL,
+  description TEXT
 );
 
-INSERT INTO products (product_name, price, quantity, img_url) VALUES
-('Mysore Pak', 450.00, 29, 'https://img.freepik.com/premium-photo/mysore-pak-indian-sweet-prepared-ghee_521733-12165.jpg'),
-('Chocolate Cake', 650.00, 15, 'https://th.bing.com/th/id/OIP.XfKQb1ZbxyccGXEcWQ_VPgHaHa?pid=ImgDetMain'),
-('Red Velvet Cupcake', 120.00, 40, 'https://th.bing.com/th/id/OIP.GQTeiAV6zwOUSApmkyw6ngHaEK?pid=ImgDetMain'),
-('Black Forest Pastry', 90.00, 50, 'https://www.ruchiskitchen.com/wp-content/uploads/2021/05/Eggless-Black-forest-pastry-02-1-683x1024.jpg'),
-('Pineapple Pastry', 85.00, 45, 'https://tse1.mm.bing.net/th/id/OIP.BwEYpj6Tpf7zJGLrdfPo1AHaJQ?pid=ImgDetMain'),
-('Butter Cookies', 250.00, 60, 'https://img.freepik.com/free-photo/butter-cookies_1339-1743.jpg'),
-('Rasgulla', 350.00, 35, 'https://th.bing.com/th/id/OIP.ibmTOU1t-Zl1LKlZUOAewgHaHa?pid=ImgDetMain'),
-('Kaju Katli', 600.00, 28, 'https://th.bing.com/th/id/OIP.d9OfVEfRsMxbvNYzOmiLLQHaE-?pid=ImgDetMain'),
-('Baklava', 700.00, 20, 'https://tse2.mm.bing.net/th/id/OIP.kFlIVDFW3aBxfcsX5jYV-QHaHa?pid=ImgDetMain'),
-('Doughnut', 70.00, 55, 'https://tse4.mm.bing.net/th/id/OIP._MHjT_o_pe3ClSbSS6Te_AHaEo?pid=ImgDetMain'),
-('Croissant', 90.00, 40, 'https://tse2.mm.bing.net/th/id/OIP.viZx5oefVmeeam9tdJDzbQHaG6?pid=ImgDetMain'),
-('Fruit Tart', 300.00, 22, 'https://images.squarespace-cdn.com/content/v1/533f584fe4b0f77e1bd2e4d1/1624992895865-BEP5PAI4R7PYBQU9T0TW/summer.fruit.tart.1_butteryum.jpg'),
-('Cheese Cake', 550.00, 18, 'https://tse2.mm.bing.net/th/id/OIP.7s4_AWNCD-sRn4BmTu3V_AHaHa?pid=ImgDetMain'),
-('Banana Bread', 200.00, 25, 'https://tse3.mm.bing.net/th/id/OIP.JnSG7aGGyv5dHHfYkyVoDgHaLH?pid=ImgDetMain'),
-('Plum Cake', 450.00, 30, 'https://tse4.mm.bing.net/th/id/OIP.fdJSO7a8pXARFJqqJT1xigHaFj?pid=ImgDetMain');
+INSERT INTO products (product_name, price, quantity, img_url, description) VALUES
+('Mysore Pak', 450.00, 29, 'https://img.freepik.com/premium-photo/mysore-pak-indian-sweet-prepared-ghee_521733-12165.jpg', 'A rich, sweet, and melt-in-the-mouth traditional Indian delicacy made with generous amounts of ghee, sugar, and gram flour.'),
+('Chocolate Cake', 650.00, 15, 'https://th.bing.com/th/id/OIP.XfKQb1ZbxyccGXEcWQ_VPgHaHa?pid=ImgDetMain', 'Decadent, moist chocolate cake layered with rich fudge frosting. Perfect for any celebration or a midnight craving.'),
+('Red Velvet Cupcake', 120.00, 40, 'https://th.bing.com/th/id/OIP.GQTeiAV6zwOUSApmkyw6ngHaEK?pid=ImgDetMain', 'Classic moist red velvet cake topped with a generous swirl of tangy and sweet cream cheese frosting.'),
+('Black Forest Pastry', 90.00, 50, 'https://www.ruchiskitchen.com/wp-content/uploads/2021/05/Eggless-Black-forest-pastry-02-1-683x1024.jpg', 'Traditional German dessert featuring layers of chocolate sponge cake, whipped cream, and luscious cherries.'),
+('Pineapple Pastry', 85.00, 45, 'https://tse1.mm.bing.net/th/id/OIP.BwEYpj6Tpf7zJGLrdfPo1AHaJQ?pid=ImgDetMain', 'Light and refreshing sponge cake layered with fresh pineapple chunks and smooth vanilla cream.'),
+('Butter Cookies', 250.00, 60, 'https://img.freepik.com/free-photo/butter-cookies_1339-1743.jpg', 'Classic, crumbly cookies made with premium butter that simply melt in your mouth. Perfect with tea or coffee.'),
+('Rasgulla', 350.00, 35, 'https://th.bing.com/th/id/OIP.ibmTOU1t-Zl1LKlZUOAewgHaHa?pid=ImgDetMain', 'Soft, spongy, and juicy milk-solid balls soaked in a delicate sugar syrup infused with rose water.'),
+('Kaju Katli', 600.00, 28, 'https://th.bing.com/th/id/OIP.d9OfVEfRsMxbvNYzOmiLLQHaE-?pid=ImgDetMain', 'A premium Indian sweet made from cashew nuts, sugar, and ghee, garnished with edible silver foil.'),
+('Baklava', 700.00, 20, 'https://tse2.mm.bing.net/th/id/OIP.kFlIVDFW3aBxfcsX5jYV-QHaHa?pid=ImgDetMain', 'Rich, sweet pastry made of layers of filo dough filled with chopped nuts and sweetened with syrup or honey.'),
+('Doughnut', 70.00, 55, 'https://tse4.mm.bing.net/th/id/OIP._MHjT_o_pe3ClSbSS6Te_AHaEo?pid=ImgDetMain', 'Freshly fried, pillowy soft doughnut glazed with a smooth and glossy sugary coating.'),
+('Croissant', 90.00, 40, 'https://tse2.mm.bing.net/th/id/OIP.viZx5oefVmeeam9tdJDzbQHaG6?pid=ImgDetMain', 'Authentic French-style pastry featuring flaky, buttery layers with a beautifully crisp exterior and soft interior.'),
+('Fruit Tart', 300.00, 22, 'https://images.squarespace-cdn.com/content/v1/533f584fe4b0f77e1bd2e4d1/1624992895865-BEP5PAI4R7PYBQU9T0TW/summer.fruit.tart.1_butteryum.jpg', 'A crisp buttery tart shell filled with rich custard and topped with a colorful array of fresh seasonal fruits.'),
+('Cheese Cake', 550.00, 18, 'https://tse2.mm.bing.net/th/id/OIP.7s4_AWNCD-sRn4BmTu3V_AHaHa?pid=ImgDetMain', 'Creamy, smooth New York style cheesecake with a buttery graham cracker crust and a hint of vanilla.'),
+('Banana Bread', 200.00, 25, 'https://tse3.mm.bing.net/th/id/OIP.JnSG7aGGyv5dHHfYkyVoDgHaLH?pid=ImgDetMain', 'Moist, sweet bread loaded with ripe bananas and a touch of cinnamon, baked to golden perfection.'),
+('Plum Cake', 450.00, 30, 'https://tse4.mm.bing.net/th/id/OIP.fdJSO7a8pXARFJqqJT1xigHaFj?pid=ImgDetMain', 'Traditional rich fruit cake loaded with rum-soaked dry fruits and warm spices. A holiday classic!');
 
 -- -----------------------------
 -- Table: cart

@@ -56,13 +56,17 @@
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="/">Swad Dhulekar</a>
-      <div class="mx-auto">
-        <form class="d-flex search-form" action="/search" method="GET">
-          <input class="form-control me-2" type="search" name="query" placeholder="Search for treats..." aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
-      </div>
-      <div class="d-flex align-items-center">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="mx-auto my-2 my-lg-0 w-100 d-flex justify-content-center">
+          <form class="d-flex search-form w-100 px-lg-3" action="/search" method="GET" style="max-width: 600px;">
+            <input class="form-control me-2" type="search" name="query" placeholder="Search for treats..." aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+        <div class="d-flex align-items-center mt-2 mt-lg-0">
         <a href="/cart" class="btn btn-outline-dark me-2">
           <i class="bi-cart-fill me-1"></i>
           Cart
@@ -87,6 +91,7 @@
             <a href="/register" class="btn btn-primary">Register</a>
           </div>
         <% } %>
+      </div>
       </div>
     </div>
   </nav>

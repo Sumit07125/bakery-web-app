@@ -10,6 +10,7 @@
         <span><%= bill.bill_date.toDateString() %></span>
       </div>
       <div class="card-body">
+        <div class="table-responsive">
         <table class="table table-bordered">
           <thead>
             <tr>
@@ -23,7 +24,8 @@
             <% if (bill.item3) { %><tr><td><%= bill.item3 %></td><td><%= bill.q3 %></td></tr><% } %>
           </tbody>
         </table>
-        <div class="text-end fw-bold fs-5">Total: ₹<%= bill.total_amount %></div>
+        </div>
+        <div class="text-end fw-bold fs-5 mt-2">Total: ₹<%= bill.total_amount %></div>
         <p><strong>Status:</strong> <%= bill.status %></p>
         <form class="d-flex justify-content-end align-items-center gap-2 mt-3" action="/update-bill/<%= bill.bill_id %>" method="POST">
           <select name="status" class="form-select">
