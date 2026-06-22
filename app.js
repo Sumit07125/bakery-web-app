@@ -1,8 +1,16 @@
+require('dotenv').config();
 const { render } = require("ejs");
 const db = require("./db");
 const express = require("express");
 const app = express();
 const session = require("express-session");
+const Razorpay = require("razorpay");
+const crypto = require("crypto");
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -286,7 +294,7 @@ app.get("/cart", (req, res) => {
         total += item.price * item.quantity;
         titem += item.quantity;
       }
-      res.render("cart", { products, total, titem, user: req.session.user, cartCount });
+      res.render("cart", { products, total, titem, user: req.session.user, cartCount, razorpay_key_id: process.env.RAZORPAY_KEY_ID });
     });
   });
 });
@@ -353,9 +361,47 @@ app.get("/updatecartplus/:pid", (req, res) => {
   res.redirect("/cart");
 });
 
+app.post("/api/create-order", async (req, res) => {
+  if (!req.session || !req.session.user) return res.status(401).json({ error: "Unauthorized" });
+  try {
+    const { amount } = req.body;
+    if (!amount || amount < 100) {
+      return res.status(400).json({ error: "Amount must be at least 100 paise" });
+    }
+    const options = {
+      amount: amount,
+      currency: "INR",
+      receipt: "receipt_order_" + Date.now(),
+    };
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to create order" });
+  }
+});
+
+app.post("/api/verify-payment", (req, res) => {
+  if (!req.session || !req.session.user) return res.status(401).json({ error: "Unauthorized" });
+  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+    return res.status(400).json({ error: "Missing fields" });
+  }
+
+  const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
+  hmac.update(razorpay_order_id + "|" + razorpay_payment_id);
+  const generatedSignature = hmac.digest("hex");
+
+  if (generatedSignature === razorpay_signature) {
+    res.json({ success: true, message: "Payment verified successfully" });
+  } else {
+    res.status(400).json({ error: "Signature mismatch" });
+  }
+});
+
 app.get("/billing", (req, res) => {
   const uid = req.session.user.id;
-  const status = "Pending";
+  const status = "Paid";
 
   // Fetch up to 3 cart items for this user
   const getCart = `

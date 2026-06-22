@@ -86,9 +86,74 @@
             <h5>Rs <%= total %></h5>
           </div>
           <div class="d-grid gap-2 mt-4">
-            <a href="/billing" class="btn btn-primary">Proceed to Checkout</a>
+            <button id="rzp-button" class="btn btn-primary">Proceed to Checkout</button>
             <a href="/" class="btn btn-secondary">Continue Shopping</a>
           </div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.getElementById('rzp-button').onclick = async function(e) {
+  e.preventDefault();
+  const amountStr = "<%= total %>";
+  const amount = parseInt(amountStr, 10) * 100;
+
+  if (amount < 100) {
+    alert("Amount must be at least Rs 1.");
+    return;
+  }
+
+  try {
+    const response = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: amount, currency: 'INR', receipt: 'rcptid_11' })
+    });
+    const order = await response.json();
+
+    if(order.error) {
+      alert("Error: " + order.error);
+      return;
+    }
+
+    var options = {
+      "key": "<%= locals.razorpay_key_id || '' %>", 
+      "amount": order.amount,
+      "currency": order.currency,
+      "name": "Bakery Web App",
+      "description": "Checkout Payment",
+      "order_id": order.id,
+      "handler": async function (response){
+        const verifyRes = await fetch('/api/verify-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature
+          })
+        });
+        const verifyData = await verifyRes.json();
+        if(verifyData.success) {
+          window.location.href = '/billing';
+        } else {
+          alert('Payment verification failed!');
+        }
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+      alert("Payment failed: " + response.error.description);
+    });
+    rzp1.open();
+  } catch (err) {
+    console.error(err);
+    alert('Something went wrong!');
+  }
+}
+</script>
         </div>
       </div>
     </div>
