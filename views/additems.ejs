@@ -1,39 +1,121 @@
 <%- include('include/admin_header') %>
 
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h1 class="card-title text-center">ADD PRODUCTS</h1>
-          <form action="/additems" method="POST">
-            <div class="mb-3">
-              <label for="name" class="form-label">Product Name:</label>
-              <input type="text" id="name" name="name" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label for="price" class="form-label">Price:</label>
-              <input type="number" id="price" name="price" class="form-control" min="1" required>
-            </div>
-            <div class="mb-3">
-              <label for="quantity" class="form-label">Quantity:</label>
-              <input type="number" id="quantity" name="quantity" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label for="img_url" class="form-label">Image URL:</label>
-              <input type="text" id="img_url" name="img_url" class="form-control" required>
-            </div>
-            <button id="registered" type="submit" class="btn btn-primary w-100">Save</button>
-          </form>
+<style>
+  .add-product-wrapper {
+    min-height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .add-product-card {
+    width: 100%;
+    max-width: 600px;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  .card-header-admin {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    padding: 2rem;
+    text-align: center;
+    color: white;
+  }
+  .card-header-admin h2 { font-family: 'Playfair Display', serif; margin: 0; }
+  .card-header-admin p { margin: 0.25rem 0 0; opacity: 0.9; font-size: 0.9rem; }
+  .card-body-admin { padding: 2rem; }
+  .form-label { font-weight: 600; color: #374151; font-size: 0.9rem; }
+  .form-control, .form-select {
+    border-radius: 12px !important;
+    border: 1.5px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+  }
+  .form-control:focus, .form-select:focus {
+    border-color: #d97706;
+    box-shadow: 0 0 0 3px rgba(217,119,6,0.15);
+  }
+  .btn-save {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s;
+  }
+  .btn-save:hover {
+    background: linear-gradient(135deg, #92400e, #b45309);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(180,83,9,0.35);
+    color: white;
+  }
+</style>
+
+<div class="add-product-wrapper">
+  <div class="add-product-card">
+    <div class="card-header-admin">
+      <div style="font-size:2.5rem; margin-bottom:0.5rem;">🧁</div>
+      <h2>Add New Product</h2>
+      <p>Fill in the details to add a product to the storefront</p>
+    </div>
+    <div class="card-body-admin">
+      <form action="/additems" method="POST">
+        <div class="row g-3 mb-3">
+          <div class="col-md-8">
+            <label for="name" class="form-label">Product Name</label>
+            <input type="text" id="name" name="name" class="form-control" placeholder="e.g. Chocolate Truffle Cake" required>
+          </div>
+          <div class="col-md-4">
+            <label for="category" class="form-label">Category</label>
+            <select id="category" name="category" class="form-select" required>
+              <option value="Cakes">🎂 Cakes</option>
+              <option value="Pastries">🥐 Pastries</option>
+              <option value="Sweets">🍬 Sweets</option>
+              <option value="Cookies">🍪 Cookies</option>
+              <option value="Breads">🍞 Breads</option>
+              <option value="Other">📦 Other</option>
+            </select>
+          </div>
         </div>
-      </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="price" class="form-label">Price (Rs)</label>
+            <input type="number" id="price" name="price" class="form-control" min="1" placeholder="e.g. 350" required>
+          </div>
+          <div class="col-md-6">
+            <label for="quantity" class="form-label">Stock Quantity</label>
+            <input type="number" id="quantity" name="quantity" class="form-control" placeholder="e.g. 25" required>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="img_url" class="form-label">Image URL</label>
+          <input type="url" id="img_url" name="img_url" class="form-control" placeholder="https://..." required>
+        </div>
+
+        <div class="mb-4">
+          <label for="description" class="form-label">Product Description</label>
+          <textarea id="description" name="description" class="form-control" rows="3" placeholder="Describe the taste, ingredients, and what makes it special..." required></textarea>
+          <small class="text-muted">This description will appear in the cart and product detail page.</small>
+        </div>
+
+        <button type="submit" class="btn-save">
+          <i class="bi bi-plus-circle me-2"></i> Add Product to Store
+        </button>
+      </form>
     </div>
   </div>
 </div>
 
 <script>
-  document.getElementById('registered').addEventListener('click', () => {
-    alert('Item added successfully');
+  document.querySelector('form').addEventListener('submit', function(e) {
+    // SweetAlert2 toast is triggered via redirect; form submission is normal
   });
 </script>
 

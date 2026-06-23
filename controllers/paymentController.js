@@ -9,10 +9,18 @@ const razorpay = new Razorpay({
 exports.createOrder = async (req, res) => {
   if (!req.session || !req.session.user) return res.status(401).json({ error: "Unauthorized" });
   try {
-    const { amount } = req.body;
+    const { amount, discountCode } = req.body;
     if (!amount || amount < 100) {
       return res.status(400).json({ error: "Amount must be at least 100 paise" });
     }
+    
+    // Store discount in session for billing step
+    if (discountCode) {
+      req.session.appliedDiscount = discountCode;
+    } else {
+      req.session.appliedDiscount = "NONE";
+    }
+
     const options = {
       amount: amount,
       currency: "INR",

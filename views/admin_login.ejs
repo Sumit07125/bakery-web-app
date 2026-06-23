@@ -1,23 +1,153 @@
 <%- include('include/header') %>
 
-<div class="container mt-5">
-  <div class="row justify-content-center">
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-body">
-          <h1 class="card-title text-center">Admin Login</h1>
-          <form action="/admin_login" method="POST">
-            <div class="mb-3">
-              <label for="email" class="form-label">Email:</label>
-              <input type="email" id="email" name="email" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label">Password:</label>
-              <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Login</button>
-          </form>
+<style>
+  .admin-auth-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    background-image: 
+      radial-gradient(circle at 20% 30%, rgba(180,83,9,0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(217,119,6,0.1) 0%, transparent 50%),
+      linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  }
+  /* Override body bg for this page */
+  body { background: #0f172a !important; background-image: none !important; }
+
+  .admin-card {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 24px;
+    box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+    overflow: hidden;
+    animation: slideUp 0.5s ease;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .admin-card-header {
+    padding: 2.5rem 2rem 1.5rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .shield-icon {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, #b45309, #d97706);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+    box-shadow: 0 8px 24px rgba(217,119,6,0.4);
+  }
+  .admin-card-header h2 {
+    font-family: 'Playfair Display', serif;
+    color: white;
+    font-size: 1.6rem;
+    margin: 0;
+  }
+  .admin-card-header p {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem;
+    margin: 0.5rem 0 0;
+  }
+  .admin-card-body { padding: 2rem; }
+  .form-label { color: rgba(255,255,255,0.7); font-size: 0.85rem; font-weight: 500; }
+  .admin-input-group .input-icon {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-right: none;
+    border-radius: 12px 0 0 12px;
+    padding: 0.75rem 1rem;
+    color: #d97706;
+    display: flex;
+    align-items: center;
+  }
+  .admin-input {
+    background: rgba(255,255,255,0.05) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-left: none !important;
+    color: white !important;
+    border-radius: 0 12px 12px 0 !important;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+  .admin-input::placeholder { color: rgba(255,255,255,0.3) !important; }
+  .admin-input:focus {
+    box-shadow: none !important;
+    border-color: rgba(217,119,6,0.5) !important;
+    background: rgba(255,255,255,0.08) !important;
+    outline: none;
+  }
+  .btn-admin-login {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 0.85rem;
+    font-size: 1rem;
+    font-weight: 600;
+    width: 100%;
+    transition: all 0.3s;
+    letter-spacing: 0.5px;
+  }
+  .btn-admin-login:hover {
+    background: linear-gradient(135deg, #92400e, #b45309);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(180,83,9,0.5);
+    color: white;
+  }
+  .back-home-link {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .back-home-link a {
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .back-home-link a:hover { color: #d97706; }
+</style>
+
+<div class="admin-auth-wrapper">
+  <div class="admin-card">
+    <div class="admin-card-header">
+      <div class="shield-icon">🛡️</div>
+      <h2>Admin Portal</h2>
+      <p>Restricted access — authorized personnel only</p>
+    </div>
+    <div class="admin-card-body">
+      <form action="/admin_login" method="POST">
+        <div class="mb-4">
+          <label class="form-label">Email Address</label>
+          <div class="input-group admin-input-group">
+            <div class="input-icon"><i class="bi bi-envelope-lock"></i></div>
+            <input type="email" class="form-control admin-input" name="email" placeholder="admin@bakery.com" required>
+          </div>
         </div>
+        <div class="mb-4">
+          <label class="form-label">Password</label>
+          <div class="input-group admin-input-group">
+            <div class="input-icon"><i class="bi bi-key"></i></div>
+            <input type="password" class="form-control admin-input" name="password" placeholder="••••••••" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-admin-login">
+          <i class="bi bi-shield-check me-2"></i> Access Dashboard
+        </button>
+      </form>
+      <div class="back-home-link">
+        <a href="/"><i class="bi bi-arrow-left me-1"></i>Back to Storefront</a>
       </div>
     </div>
   </div>

@@ -1,3 +1,11 @@
 node_modules/
-*.sql
 .env
+
+# Ignore specific SQL exports
+bakery_app_tidb_fixed.sql
+schema_updates.sql
+
+# Ignore one-time database setup scripts
+migrate.js
+seed_reviews.js
+apply_schema.js

@@ -1,64 +1,195 @@
 <%- include('include/header') %>
 
-<div class="container my-5">
-  <h2 class="text-center mb-4">My Bills</h2>
+<style>
+  .orders-page { padding: 3rem 0; }
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    color: var(--text-main);
+  }
+  .page-subtitle { text-align: center; color: var(--text-muted); margin-bottom: 3rem; }
+
+  .order-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 2rem;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .order-card:hover { box-shadow: 0 8px 30px rgba(0,0,0,0.1); }
+  .order-card-header {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    color: white;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .order-card-header .bill-id { font-size: 1.1rem; font-weight: 700; }
+  .order-card-header .bill-date { font-size: 0.85rem; opacity: 0.85; }
+  .order-card-body { padding: 1.5rem; }
+
+  /* Progress Tracker */
+  .progress-tracker {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+    margin: 1.5rem 0 2rem;
+  }
+  .progress-tracker::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: 12.5%; /* Center of first circle */
+    right: 12.5%; /* Center of last circle */
+    height: 3px;
+    background: #e5e7eb;
+    z-index: 0;
+  }
+  .progress-fill {
+    position: absolute;
+    top: 18px;
+    left: 12.5%;
+    height: 3px;
+    background: linear-gradient(to right, #b45309, #d97706);
+    z-index: 1;
+    transition: width 0.6s ease;
+  }
+  .tracker-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+    flex: 1;
+  }
+  .step-circle {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    border: 3px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: #9ca3af;
+    transition: all 0.4s;
+    margin-bottom: 0.6rem;
+  }
+  .tracker-step.active .step-circle,
+  .tracker-step.completed .step-circle {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    border-color: #d97706;
+    color: white;
+    box-shadow: 0 4px 12px rgba(217,119,6,0.4);
+  }
+  .step-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-align: center;
+    color: #9ca3af;
+    line-height: 1.3;
+    max-width: 80px;
+  }
+  .tracker-step.active .step-label,
+  .tracker-step.completed .step-label {
+    color: #b45309;
+  }
+
+  .order-items-table { font-size: 0.9rem; }
+  .order-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 1rem;
+    margin-top: 1rem;
+  }
+  .total-badge {
+    background: #fff7ed;
+    border: 1.5px solid #fed7aa;
+    color: #b45309;
+    border-radius: 10px;
+    padding: 0.5rem 1rem;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+</style>
+
+<div class="container orders-page">
+  <h2 class="page-title">My Orders</h2>
+  <p class="page-subtitle">Track the live status of your delicious orders</p>
+
   <% if (bills.length > 0) { %>
-    <% bills.forEach(bill => { %>
-      <div class="card mb-4">
-        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-          <h5 class="mb-0">Bill #<%= bill.bill_id %></h5>
-          <span><%= new Date(bill.bill_date).toLocaleDateString() %></span>
+    <% 
+      const STEPS = ['Order Received', 'Baking in Progress', 'Out for Delivery', 'Delivered'];
+      const STEP_ICONS = ['📋', '🧑‍🍳', '🚚', '✅'];
+      bills.forEach(bill => {
+        const currentStep = STEPS.indexOf(bill.order_status || 'Order Received');
+        const progressPct = currentStep < 0 ? 0 : (currentStep / (STEPS.length - 1)) * 100;
+    %>
+    <div class="order-card">
+      <div class="order-card-header">
+        <span class="bill-id"><i class="bi bi-receipt me-2"></i>Order #<%= bill.bill_id %></span>
+        <span class="bill-date"><i class="bi bi-calendar3 me-1"></i><%= new Date(bill.bill_date).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'}) %></span>
+      </div>
+      <div class="order-card-body">
+
+        <!-- 4-Step Progress Tracker -->
+        <div class="progress-tracker">
+          <div class="progress-fill" style="width: calc(<%= progressPct %>% * 0.75)"></div>
+          <% STEPS.forEach((step, i) => { %>
+            <div class="tracker-step <%= i <= currentStep ? (i < currentStep ? 'completed' : 'active') : '' %>">
+              <div class="step-circle"><%= STEP_ICONS[i] %></div>
+              <span class="step-label"><%= step %></span>
+            </div>
+          <% }); %>
         </div>
-        <div class="card-body">
-          <div class="table-responsive">
-          <table class="table table-sm table-striped">
-            <thead>
-              <tr>
-                <th>Item</th>
-                <th>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              <% if (bill.item1) { %>
-                <tr>
-                  <td><%= bill.item1 %></td>
-                  <td><%= bill.q1 %></td>
-                </tr>
-              <% } %>
-              <% if (bill.item2) { %>
-                <tr>
-                  <td><%= bill.item2 %></td>
-                  <td><%= bill.q2 %></td>
-                </tr>
-              <% } %>
-              <% if (bill.item3) { %>
-                <tr>
-                  <td><%= bill.item3 %></td>
-                  <td><%= bill.q3 %></td>
-                </tr>
-              <% } %>
-            </tbody>
-          </table>
+
+        <!-- Items Table -->
+        <table class="table order-items-table table-hover mb-0">
+          <thead class="table-light">
+            <tr><th>Item</th><th>Qty</th></tr>
+          </thead>
+          <tbody>
+            <% if (bill.item1) { %><tr><td><%= bill.item1 %></td><td><span class="badge bg-secondary"><%= bill.q1 %></span></td></tr><% } %>
+            <% if (bill.item2) { %><tr><td><%= bill.item2 %></td><td><span class="badge bg-secondary"><%= bill.q2 %></span></td></tr><% } %>
+            <% if (bill.item3) { %><tr><td><%= bill.item3 %></td><td><span class="badge bg-secondary"><%= bill.q3 %></span></td></tr><% } %>
+          </tbody>
+        </table>
+
+        <div class="order-footer">
+          <div class="total-badge">
+            <i class="bi bi-currency-rupee"></i><%= bill.total_amount %> &nbsp; | &nbsp;
+            <% if (bill.status && bill.status.startsWith('COD')) { %>
+              <span class="text-secondary"><i class="bi bi-cash me-1"></i> Cash on Delivery</span>
+            <% } else { %>
+              <span class="text-success"><i class="bi bi-check-circle-fill me-1"></i> Online Paid</span>
+            <% } %>
           </div>
-          <div class="d-flex justify-content-between align-items-center mt-3">
-            <div>
-              <strong>Status:</strong> <span class="badge bg-info text-dark"><%= bill.status %></span>
-            </div>
-            <div class="text-end">
-              <h5 class="mb-0">Total: Rs <%= bill.total_amount %></h5>
-            </div>
-          </div>
+          <span class="badge <%= bill.order_status === 'Delivered' ? 'bg-success' : 'bg-warning text-dark' %> px-3 py-2 rounded-pill">
+            <%= bill.order_status || 'Order Received' %>
+          </span>
         </div>
       </div>
-    <% }) %>
+    </div>
+    <% }); %>
   <% } else { %>
-    <div class="text-center">
-      <p>You have no bills.</p>
+    <div class="text-center py-5">
+      <div style="font-size: 5rem; margin-bottom: 1rem;">🛒</div>
+      <h4 class="text-muted">No orders yet!</h4>
+      <p class="text-muted">When you place an order, you'll be able to track it here.</p>
+      <a href="/" class="btn btn-primary rounded-pill px-4 mt-2">Start Shopping</a>
     </div>
   <% } %>
-  <div class="text-center mt-4">
-    <a href="/" class="btn btn-secondary">Back to Home</a>
-  </div>
 </div>
 
 <%- include('include/footer') %>

@@ -1,32 +1,30 @@
-# 🍰 The Cake Shop / Swad Dhulekar - Bakery Web App
+# 🍰 Swad Dhulekar - Premium Bakery Web App
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=mysql&logoColor=white)
+![EJS](https://img.shields.io/badge/EJS-B4CA65?style=for-the-badge&logo=ejs&logoColor=black)
+![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=white)
+
+> **🌟 Live Demo:** [View Live Project Here](#) *(Update this link when hosted)*
+
+Welcome to **Swad Dhulekar / The Cake Shop**, a full-stack, MVC-architected e-commerce bakery application. Designed with modern aesthetics, glassmorphism UI, and robust backend architecture, this application provides a seamless shopping experience for sweet tooths and an efficient management portal for admins.
 
 ![Home Page](Images/Home%20Page.jpeg)
 
-**Live Hosted Project:** [Link coming soon...]
-
-This is a full-stack, MVC-architected web application for an online bakery, "The Cake Shop" (also referred to as "Swad Dhulekar"). It provides a complete e-commerce experience, allowing users to browse products, manage their cart, and place orders with a fully integrated **Razorpay Standard Checkout** simulation. It also includes a full admin panel for managing products and customer orders.
-
 ---
 
-## 🌟 Features
+## ✨ Core Features
 
-This application is divided into two main parts: the user-facing storefront and the secure admin backend.
-
-### User Features
-* **User Registration & Login:** Secure authentication for customers to create an account and log in.
-* **Product Catalog:** A dynamic main page displays all available bakery items (cakes, pastries, breads) with unique descriptions and prices.
-* **Search Functionality:** Instantly search for specific treats.
-* **User Profile:** Logged-in users can view and seamlessly edit their profile information.
-* **Shopping Cart:** Add products to the cart, adjust quantities, and see a summary of the total cost.
-* **Razorpay Checkout Integration:** Users can proceed to checkout via a smooth Razorpay modal simulation, creating a secure order flow.
-* **Order History:** Users can view all their past and current orders ("My Bills") and check their real-time status.
-
-### Admin Features
-* **Admin Login:** A separate, secure login portal for administrators.
-* **Admin Dashboard:** A central panel to effortlessly manage the bakery store.
-* **Add Products:** Add new products to the inventory, including name, price, quantity, dynamic descriptions, and image URLs.
-* **View Products:** View a comprehensive list of all products in the database.
-* **Manage Orders (Bills):** View all customer bills, check order details, and update the order status (Pending, Inprogress, Delivered).
+| Feature | Description | Status |
+| :--- | :--- | :---: |
+| **💳 Online Payment Integration** | Secure and seamless checkout experience powered by Razorpay. Supports both Online Payments and Cash on Delivery (COD). | ✅ |
+| **🚚 Live Order Tracking** | Real-time visual progress bar tracking orders from "Received" ➔ "Baking" ➔ "Out for Delivery" ➔ "Delivered". | ✅ |
+| **⭐ User Review System** | Authenticated users can leave 1-5 star ratings and written reviews on products they love. Includes auto-updating average scores. | ✅ |
+| **🔍 Dynamic Filtering** | Interactive category filters (Cakes, Pastries, etc.) that instantly sort products with smooth auto-scrolling navigation. | ✅ |
+| **🎁 Smart Discounts** | Automated promotional discounts calculated at checkout to enhance user retention and provide a delightful UX. | ✅ |
+| **👤 Premium User Profiles** | Highly customized, aesthetic user dashboard with dynamic UI-avatars, address management, and order history tracking. | ✅ |
+| **🔒 Admin Dashboard** | Secure portal for bakery owners to add/edit products, manage stock, and manually update final delivery statuses. | ✅ |
 
 ---
 
@@ -44,53 +42,80 @@ When a user proceeds to checkout from their cart, the application:
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Technology Stack
 
-* **Backend Architecture:** Node.js, Express.js (MVC Pattern: Models, Views, Controllers, Routes)
-* **Database:** MySQL (via `mysql2`)
-* **Frontend (Templating):** EJS (Embedded JavaScript), Bootstrap 5, Custom CSS
-* **Payment Gateway:** Razorpay Node SDK & Checkout.js
-* **Security & Session Management:** `express-session`, `crypto`, `dotenv`
+- **Frontend:** HTML5, CSS3 (Custom properties, Glassmorphism), Bootstrap 5, EJS Templating
+- **Backend:** Node.js, Express.js (MVC Pattern: Models, Views, Controllers, Routes)
+- **Database:** MySQL (via `mysql2`)
+- **Authentication:** Express-Session (Secure Cookie based)
+- **Payment Gateway:** Razorpay Node SDK & Checkout.js
+- **Tooling:** Nodemon, Dotenv
 
 ---
 
-## 🚀 Setup and Installation
+## 🚀 Getting Started (Local Development)
 
-To run this project locally, follow these steps:
+### 1. Prerequisites
+Ensure you have the following installed on your machine:
+- [Node.js](https://nodejs.org/) (v16+)
+- [MySQL](https://www.mysql.com/) Server
 
-### 1. Clone the repository
+### 2. Installation & Setup
+Clone the repository and install dependencies:
 ```bash
 git clone https://github.com/Sumit07125/bakery-web-app.git
 cd bakery-web-app
-```
-
-### 2. Set up the Database
-* Ensure you have MySQL server running locally.
-* Create the database and seed it using the provided `bakery_app.sql` file:
-```sql
-CREATE DATABASE IF NOT EXISTS bakery_app;
-USE bakery_app;
--- Run the rest of the queries inside bakery_app.sql to create the tables.
-```
-
-### 3. Configure Environment Variables
-* Open the `db.js` file and update the `host`, `user`, `password`, and `database` fields with your local MySQL credentials.
-* Create a `.env` file in the root directory for Razorpay integration:
-```env
-RAZORPAY_KEY_ID=your_razorpay_key_id
-RAZORPAY_KEY_SECRET=your_razorpay_key_secret
-```
-
-### 4. Install Dependencies
-```bash
 npm install
+```
+
+### 3. Environment Variables
+Create a `.env` file in the root directory and configure your credentials:
+```env
+# Database Configuration
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=your_mysql_password
+DB_NAME=bakery_app
+DB_PORT=3306
+
+# Server Configuration
+PORT=3000
+SESSION_SECRET=your_super_secret_key
+
+# Razorpay Keys (For Payments)
+RAZORPAY_KEY_ID=your_test_key_id
+RAZORPAY_KEY_SECRET=your_test_key_secret
+```
+
+### 4. Database Migration
+Initialize your database schema and tables. 
+*Note: Make sure your MySQL server is running and the `bakery_app` database is created before running these.*
+```bash
+# 1. Run the base SQL script in your MySQL Workbench or CLI
+# source bakery_app.sql
+
+# 2. Add description column to products
+node migrate.js
+
+# 3. Add reviews table and order_status
+node apply_schema.js
+
+# 4. (Optional) Seed dummy reviews for testing
+node seed_reviews.js
 ```
 
 ### 5. Run the Application
 ```bash
-node app.js
+npm start
 ```
-The application will be running at `http://localhost:3000`.
+Your app will now be running at `http://localhost:3000`!
+
+---
+
+## 👨‍💻 Developer Information
+
+Built with ❤️ by **Sumit Mali**.  
+For any inquiries or contributions, feel free to open an issue or pull request!
 
 ---
 **Project Documentation:**

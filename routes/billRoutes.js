@@ -10,6 +10,7 @@ const isAdmin = (req, res, next) => {
 };
 
 router.get('/billing', billController.getBilling);
+router.post('/checkout-cod', billController.postCheckoutCod);
 router.get('/my-bills', billController.getMyBills);
 router.get('/admin_bills', isAdmin, billController.getAdminBills);
 router.post('/update-bill/:bill_id', isAdmin, billController.postUpdateBill);

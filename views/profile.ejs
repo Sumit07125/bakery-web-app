@@ -1,27 +1,168 @@
 <%- include('include/header') %>
 
-<div class="container my-5">
+<style>
+  .profile-wrapper { padding: 4rem 0; }
+  .profile-card {
+    background: white;
+    border-radius: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+    overflow: hidden;
+    position: relative;
+    border: none;
+  }
+  .profile-banner {
+    height: 180px;
+    background: linear-gradient(135deg, #b45309, #d97706);
+    position: relative;
+  }
+  .profile-banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 50px;
+    background: linear-gradient(to top, rgba(255,255,255,1), transparent);
+  }
+  .profile-avatar-container {
+    text-align: center;
+    margin-top: -90px;
+    position: relative;
+    z-index: 10;
+  }
+  .profile-avatar {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    border: 6px solid white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+    object-fit: cover;
+    background: white;
+    padding: 4px;
+  }
+  .profile-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-top: 1.25rem;
+    margin-bottom: 0.2rem;
+  }
+  .profile-email {
+    color: #6b7280;
+    font-size: 1.05rem;
+  }
+  .profile-info-section {
+    padding: 2.5rem 3rem;
+  }
+  @media (max-width: 768px) {
+    .profile-info-section { padding: 1.5rem; }
+  }
+  .info-group {
+    background: #fcfaf8;
+    border: 1px solid #f3f4f6;
+    border-radius: 20px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .info-group:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    border-color: #fed7aa;
+  }
+  .info-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: #fff7ed;
+    color: #d97706;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+  }
+  .info-label {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+  .info-value {
+    font-size: 1.15rem;
+    color: #374151;
+    font-weight: 600;
+    margin: 0;
+  }
+  .btn-edit-profile {
+    background: linear-gradient(135deg, #b45309, #d97706);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 0.85rem 2.5rem;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: all 0.3s;
+    box-shadow: 0 6px 15px rgba(217, 119, 6, 0.25);
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .btn-edit-profile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
+    color: white;
+  }
+</style>
+
+<div class="container profile-wrapper">
   <div class="row justify-content-center">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-header bg-primary text-white">
-          <h2 class="card-title text-center mb-0">Your Profile</h2>
+    <div class="col-lg-8 col-md-10">
+      <div class="profile-card">
+        <div class="profile-banner"></div>
+        <div class="profile-avatar-container">
+          <img src="https://ui-avatars.com/api/?name=<%= encodeURIComponent(user.name) %>&background=ffc107&color=b45309&size=256&font-size=0.4&rounded=true&bold=true" class="profile-avatar" alt="Profile Picture">
+          <h2 class="profile-name"><%= user.name %></h2>
+          <p class="profile-email"><i class="bi bi-envelope-fill me-1 text-muted"></i> <%= user.email %></p>
         </div>
-        <div class="card-body">
+        
+        <div class="profile-info-section">
           <div class="row">
-            <div class="col-md-4 text-center">
-              <img src="https://placehold.co/150x150/ffc107/fff?text=<%= user.name.charAt(0) %>" class="img-fluid rounded-circle mb-3" alt="Profile Picture">
+            <div class="col-md-6">
+              <div class="info-group">
+                <div class="info-icon"><i class="bi bi-person"></i></div>
+                <div>
+                  <div class="info-label">Age</div>
+                  <p class="info-value"><%= user.age %> Years Old</p>
+                </div>
+              </div>
             </div>
-            <div class="col-md-8">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Name:</strong> <%= user.name %></li>
-                <li class="list-group-item"><strong>Email:</strong> <%= user.email %></li>
-                <li class="list-group-item"><strong>Age:</strong> <%= user.age %></li>
-                <li class="list-group-item"><strong>Address:</strong> <%= user.address %></li>
-                <li class="list-group-item"><strong>Phone Number:</strong> <%= user.phone_number %></li>
-              </ul>
-              <a href="/edit-profile" class="btn btn-primary mt-3">Edit Profile</a>
+            <div class="col-md-6">
+              <div class="info-group">
+                <div class="info-icon"><i class="bi bi-telephone"></i></div>
+                <div>
+                  <div class="info-label">Phone Number</div>
+                  <p class="info-value"><%= user.phone_number || 'Not provided' %></p>
+                </div>
+              </div>
             </div>
+            <div class="col-12">
+              <div class="info-group">
+                <div class="info-icon"><i class="bi bi-geo-alt"></i></div>
+                <div>
+                  <div class="info-label">Delivery Address</div>
+                  <p class="info-value"><%= user.address || 'Not provided' %></p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="text-center mt-4 mb-2">
+            <a href="/edit-profile" class="btn-edit-profile"><i class="bi bi-pencil-square me-2"></i>Edit Profile Info</a>
           </div>
         </div>
       </div>

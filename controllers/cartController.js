@@ -41,11 +41,16 @@ exports.getAddToCart = (req, res) => {
   }
   const productId = req.params.id;
   const uid = req.session.user.id;
-  const sql = `INSERT INTO cart(user_id,product_id,quantity) VALUES (?,?,?)`;
-  db.query(sql, [uid, productId, 1], (err, result1) => {
-    if (err) throw err;
+  
+  // Use ON DUPLICATE KEY UPDATE to increment quantity if the product is already in the cart
+  const sql = `INSERT INTO cart (user_id, product_id, quantity) VALUES (?, ?, 1) ON DUPLICATE KEY UPDATE quantity = quantity + 1`;
+  db.query(sql, [uid, productId], (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.redirect("/?toast=error&msg=Error+adding+to+cart");
+    }
+    return res.redirect("/?toast=success&msg=Item+added+to+cart!");
   });
-  res.redirect("/");
 };
 
 exports.getUpdateCartMinus = (req, res) => {
@@ -80,4 +85,14 @@ exports.getUpdateCartPlus = (req, res) => {
     }
   });
   res.redirect("/cart");
+};
+
+exports.getRemoveFromCart = (req, res) => {
+  if (!req.session.user) return res.redirect("/user_login");
+  const uid = req.session.user.id;
+  const pid = req.params.pid;
+  db.query("DELETE FROM cart WHERE user_id = ? AND product_id = ?", [uid, pid], (err) => {
+    if (err) console.error(err);
+    res.redirect("/cart");
+  });
 };
