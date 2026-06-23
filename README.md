@@ -6,7 +6,7 @@
 ![EJS](https://img.shields.io/badge/EJS-B4CA65?style=for-the-badge&logo=ejs&logoColor=black)
 ![Razorpay](https://img.shields.io/badge/Razorpay-02042B?style=for-the-badge&logo=razorpay&logoColor=white)
 
-> **🌟 Live Demo:** [View Live Project Here](#) *(Update this link when hosted)*
+>**🌟 Live Demo:** [View Live Project Here](https://bakery-web-app-two.vercel.app/)
 
 Welcome to **Swad Dhulekar / The Cake Shop**, a full-stack, MVC-architected e-commerce bakery application. Designed with modern aesthetics, glassmorphism UI, and robust backend architecture, this application provides a seamless shopping experience for sweet tooths and an efficient management portal for admins.
 
