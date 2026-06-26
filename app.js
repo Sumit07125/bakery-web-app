@@ -29,6 +29,7 @@ const pool = mysqlPromise.createPool({
 
 const sessionStore = new MySQLStore({}, pool);
 
+app.set('trust proxy', 1); // Trust first proxy (required for Vercel)
 app.use(
   session({
     key: 'bakery_session',
